@@ -1,0 +1,8 @@
+#!/bin/sh
+# Scan staged changes for secrets before every commit.
+if ! command -v gitleaks >/dev/null 2>&1; then
+  echo "pre-commit: gitleaks is required but not installed." >&2
+  echo "Install it: https://github.com/gitleaks/gitleaks#installing" >&2
+  exit 1
+fi
+exec gitleaks git --pre-commit --staged --redact --verbose

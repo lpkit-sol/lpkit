@@ -147,3 +147,22 @@ vite.config.ts.timestamp-*
 
 # Turbo Repo
 .turbo
+
+# --- lpkit: secrets and wallets (never commit these) ---
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+id.json
+*keypair*.json
+*wallet*.json
+.secrets/
+secrets/
+*.secret
+*.secrets
+
+# --- lpkit: local tooling ---
+.idea/
+.DS_Store
+Thumbs.db

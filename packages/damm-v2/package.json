@@ -1,0 +1,49 @@
+{
+  "name": "@lpkit-sol/damm-v2",
+  "version": "0.0.0",
+  "description": "Read-only helpers for Meteora DAMM v2 pools. Unofficial.",
+  "private": true,
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lpkit-sol/lpkit.git",
+    "directory": "packages/damm-v2"
+  },
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --format esm,cjs --dts --clean --sourcemap"
+  },
+  "dependencies": {
+    "@lpkit-sol/core": "0.0.0"
+  },
+  "peerDependencies": {
+    "@meteora-ag/cp-amm-sdk": "^1.5.1",
+    "@solana/web3.js": "^1.95.3"
+  },
+  "devDependencies": {
+    "@meteora-ag/cp-amm-sdk": "^1.5.1",
+    "@solana/web3.js": "^1.99.0"
+  }
+}

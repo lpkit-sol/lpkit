@@ -1,0 +1,38 @@
+{
+  "name": "@lpkit-sol/core",
+  "version": "0.0.0",
+  "description": "Protocol-neutral types for Solana liquidity pools and positions.",
+  "private": true,
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lpkit-sol/lpkit.git",
+    "directory": "packages/core"
+  },
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --format esm,cjs --dts --clean --sourcemap"
+  }
+}
