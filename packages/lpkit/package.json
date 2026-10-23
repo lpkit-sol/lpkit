@@ -1,5 +1,5 @@
 {
-  "name": "lpkit",
+  "name": "@lpkit-sol/lpkit",
   "version": "0.1.0",
   "description": "Independent open-source toolkit for Solana liquidity providers. Unofficial.",
   "keywords": [
@@ -53,5 +53,8 @@
   "dependencies": {
     "@lpkit-sol/core": "^0.1.0",
     "@lpkit-sol/damm-v2": "^0.1.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

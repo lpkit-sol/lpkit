@@ -9,12 +9,12 @@ Open-source toolkit for developers building liquidity-provider (LP) tools on Sol
 **Pre-alpha (0.x).** The API is not stable yet. Expect breaking changes between minor versions.
 
 ```bash
-npm install lpkit @meteora-ag/cp-amm-sdk @coral-xyz/anchor@^0.31 @solana/web3.js@^1
+npm install @lpkit-sol/lpkit @meteora-ag/cp-amm-sdk @coral-xyz/anchor@^0.31 @solana/web3.js@^1
 ```
 
 | Package                                  | Contents                                      |
 | ---------------------------------------- | --------------------------------------------- |
-| [`lpkit`](packages/lpkit)                | Re-exports every package below                |
+| [`@lpkit-sol/lpkit`](packages/lpkit)     | Re-exports every package below                |
 | [`@lpkit-sol/core`](packages/core)       | Protocol-neutral types                        |
 | [`@lpkit-sol/damm-v2`](packages/damm-v2) | Meteora DAMM v2: pool classifier, fee presets |
 
