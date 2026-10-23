@@ -13,7 +13,7 @@ Open-source toolkit for developers building liquidity-provider (LP) tools on Sol
 Read-only building blocks first:
 
 - **Pool classifier** _(pre-alpha, see [`@lpkit-sol/damm-v2`](packages/damm-v2#pool-classifier))_: decode a DAMM v2 pool account into readable fields (fee collection mode, fee scheduler, compounding, lock, pool type).
-- **Fee presets**: list and decode the public fee configurations (Constant, Decaying linear/exponential, Market Cap).
+- **Fee presets** _(pre-alpha, see [`@lpkit-sol/damm-v2`](packages/damm-v2#fee-presets))_: list and decode the public fee configurations (Constant, Decaying linear/exponential, Market Cap).
 - **Token compatibility check**: detect Token-2022 extensions (transfer fee, transfer hook, permissioned) that block or change DAMM v2 pools.
 - **Position reader**: read positions, plus builders for claim and batch-close instructions.
 

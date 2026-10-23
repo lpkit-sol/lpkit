@@ -5,6 +5,7 @@ export default defineConfig({
   entry: {
     index: "src/index.ts",
     "classify/index": "src/classify/index.ts",
+    "presets/index": "src/presets/index.ts",
   },
   format: ["esm", "cjs"],
   dts: true,

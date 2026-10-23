@@ -20,7 +20,7 @@ const connection = new Connection("https://api.mainnet-beta.solana.com");
 const pool = await fetchPoolClassification(connection, "<pool address>");
 
 pool.feeCollection.mode; // "both-tokens" | "only-token-b" | "compounding"
-pool.baseFee.kind; // "time-scheduler" | "market-cap-scheduler" | "rate-limiter"
+pool.feeSchedule; // "constant" | "decaying-linear" | "market-cap-exponential" | ...
 pool.baseFee.startingFee.bps; // e.g. 5000 (50%)
 ```
 
@@ -36,7 +36,31 @@ const pool = classifyPool(poolAddress, state);
 
 Or decode raw account bytes you already fetched with `decodePoolAccount(data)`.
 
-Notes:
+## Fee presets
+
+DAMM v2 pools are created from config accounts that fix the fees. Configs whose pool creator authority is the default key are public: anyone can create a pool from them. `fetchPublicFeePresets` lists them, sorted by index, with the same fee fields as the pool classifier.
+
+```ts
+import { fetchPublicFeePresets } from "@lpkit-sol/damm-v2/presets";
+
+const presets = await fetchPublicFeePresets(connection);
+
+// e.g. every public preset with a 1% constant fee, fees collected in token B only
+const picks = presets.filter(
+  (p) =>
+    p.feeSchedule === "constant" &&
+    p.baseFee.kind !== "unknown" &&
+    p.baseFee.startingFee.bps === 100 &&
+    p.feeCollection.mode === "only-token-b",
+);
+picks[0]?.address; // config address to pass when creating a pool
+```
+
+`fetchPublicFeePresets` uses a single `getProgramAccounts` call. Some RPC providers restrict that method. For one known config use `fetchFeePreset(connection, address)`, or `classifyConfig` with `decodeConfigAccount` on data you already have.
+
+Dynamic configs (`configType: "dynamic"`) let the pool creator set fees, so their fee fields do not describe the resulting pools.
+
+## Notes
 
 - Fees are reported as raw numerators (denominator 1e9) and as basis points.
 - u64 and u128 values are returned as decimal strings to avoid precision loss.

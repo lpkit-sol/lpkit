@@ -70,6 +70,13 @@ describe("classifyPool on mainnet fixtures", () => {
     expect(classify("only-b-fee-version-0").feeCollection.compoundingFeeBps).toBeNull();
   });
 
+  it("summarises the base fee as a fee schedule", () => {
+    expect(classify("both-tokens-dynamic-token2022").feeSchedule).toBe("constant");
+    expect(classify("time-exponential").feeSchedule).toBe("decaying-exponential");
+    expect(classify("market-cap-linear").feeSchedule).toBe("market-cap-linear");
+    expect(classify("rate-limiter").feeSchedule).toBe("rate-limiter");
+  });
+
   it("decodes a constant fee", () => {
     expect(classify("both-tokens-dynamic-token2022").baseFee).toMatchObject({
       kind: "time-scheduler",

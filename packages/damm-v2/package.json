@@ -33,6 +33,16 @@
         "types": "./dist/classify/index.d.cts",
         "default": "./dist/classify/index.cjs"
       }
+    },
+    "./presets": {
+      "import": {
+        "types": "./dist/presets/index.d.ts",
+        "default": "./dist/presets/index.js"
+      },
+      "require": {
+        "types": "./dist/presets/index.d.cts",
+        "default": "./dist/presets/index.cjs"
+      }
     }
   },
   "files": [
