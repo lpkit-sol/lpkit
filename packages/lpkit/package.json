@@ -1,9 +1,21 @@
 {
   "name": "lpkit",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Independent open-source toolkit for Solana liquidity providers. Unofficial.",
-  "private": true,
+  "keywords": [
+    "solana",
+    "meteora",
+    "damm-v2",
+    "liquidity",
+    "amm",
+    "lp",
+    "defi"
+  ],
   "license": "Apache-2.0",
+  "homepage": "https://github.com/lpkit-sol/lpkit/tree/main/packages/lpkit#readme",
+  "bugs": {
+    "url": "https://github.com/lpkit-sol/lpkit/issues"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/lpkit-sol/lpkit.git",
@@ -26,17 +38,20 @@
     }
   },
   "files": [
-    "dist"
+    "dist",
+    "README.md",
+    "LICENSE"
   ],
   "sideEffects": false,
   "engines": {
     "node": ">=22"
   },
   "scripts": {
-    "build": "tsup src/index.ts --format esm,cjs --dts --clean --sourcemap"
+    "build": "tsup src/index.ts --format esm,cjs --dts --clean --sourcemap",
+    "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@lpkit-sol/core": "0.0.0",
-    "@lpkit-sol/damm-v2": "0.0.0"
+    "@lpkit-sol/core": "^0.1.0",
+    "@lpkit-sol/damm-v2": "^0.1.0"
   }
 }

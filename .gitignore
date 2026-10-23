@@ -166,3 +166,6 @@ secrets/
 .idea/
 .DS_Store
 Thumbs.db
+
+# --- lpkit: npm credentials ---
+.npmrc

@@ -1,9 +1,22 @@
 {
   "name": "@lpkit-sol/damm-v2",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Read-only helpers for Meteora DAMM v2 pools. Unofficial.",
-  "private": true,
+  "keywords": [
+    "solana",
+    "meteora",
+    "damm",
+    "damm-v2",
+    "liquidity",
+    "amm",
+    "lp",
+    "defi"
+  ],
   "license": "Apache-2.0",
+  "homepage": "https://github.com/lpkit-sol/lpkit/tree/main/packages/damm-v2#readme",
+  "bugs": {
+    "url": "https://github.com/lpkit-sol/lpkit/issues"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/lpkit-sol/lpkit.git",
@@ -46,17 +59,20 @@
     }
   },
   "files": [
-    "dist"
+    "dist",
+    "README.md",
+    "LICENSE"
   ],
   "sideEffects": false,
   "engines": {
     "node": ">=22"
   },
   "scripts": {
-    "build": "tsup"
+    "build": "tsup",
+    "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@lpkit-sol/core": "0.0.0"
+    "@lpkit-sol/core": "^0.1.0"
   },
   "peerDependencies": {
     "@coral-xyz/anchor": "^0.31.0",
@@ -67,5 +83,8 @@
     "@coral-xyz/anchor": "^0.31.1",
     "@meteora-ag/cp-amm-sdk": "^1.5.1",
     "@solana/web3.js": "^1.99.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

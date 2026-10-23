@@ -1,9 +1,19 @@
 {
   "name": "@lpkit-sol/core",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Protocol-neutral types for Solana liquidity pools and positions.",
-  "private": true,
+  "keywords": [
+    "solana",
+    "liquidity",
+    "amm",
+    "lp",
+    "defi"
+  ],
   "license": "Apache-2.0",
+  "homepage": "https://github.com/lpkit-sol/lpkit/tree/main/packages/core#readme",
+  "bugs": {
+    "url": "https://github.com/lpkit-sol/lpkit/issues"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/lpkit-sol/lpkit.git",
@@ -26,13 +36,19 @@
     }
   },
   "files": [
-    "dist"
+    "dist",
+    "README.md",
+    "LICENSE"
   ],
   "sideEffects": false,
   "engines": {
     "node": ">=22"
   },
   "scripts": {
-    "build": "tsup src/index.ts --format esm,cjs --dts --clean --sourcemap"
+    "build": "tsup src/index.ts --format esm,cjs --dts --clean --sourcemap",
+    "prepublishOnly": "npm run build"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

@@ -4,7 +4,11 @@ Read-only helpers for Meteora DAMM v2 pools. Part of [lpkit](https://github.com/
 
 > Independent, unofficial project. Not affiliated with Meteora.
 
-**Pre-alpha. Not published yet.** The API may change.
+**Pre-alpha (0.x).** The API may change.
+
+```bash
+npm install @lpkit-sol/damm-v2 @meteora-ag/cp-amm-sdk @coral-xyz/anchor@^0.31 @solana/web3.js@^1
+```
 
 Peer dependencies: `@meteora-ag/cp-amm-sdk` (^1.5.1), `@coral-xyz/anchor` (^0.31) and `@solana/web3.js` (v1).
 
@@ -65,4 +69,5 @@ Dynamic configs (`configType: "dynamic"`) let the pool creator set fees, so thei
 - Fees are reported as raw numerators (denominator 1e9) and as basis points.
 - u64 and u128 values are returned as decimal strings to avoid precision loss.
 - Values the classifier does not recognise are reported as `"unknown"` instead of guessed.
+- The type declarations shipped with `@meteora-ag/cp-amm-sdk` 1.5.1 fail TypeScript's library check on their own. Keep `skipLibCheck: true` (the usual default) in your `tsconfig.json`.
 - `permanentlyLockedPercent` covers permanent locks only. Vesting locks live on positions, not on the pool.

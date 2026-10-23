@@ -4,4 +4,4 @@ Umbrella package that re-exports every lpkit package. See the [main README](http
 
 > Independent, unofficial project. Not affiliated with Meteora.
 
-**Pre-alpha. Not published yet.**
+**Pre-alpha (0.x).** The API may change.
