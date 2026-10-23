@@ -23,6 +23,16 @@
         "types": "./dist/index.d.cts",
         "default": "./dist/index.cjs"
       }
+    },
+    "./classify": {
+      "import": {
+        "types": "./dist/classify/index.d.ts",
+        "default": "./dist/classify/index.js"
+      },
+      "require": {
+        "types": "./dist/classify/index.d.cts",
+        "default": "./dist/classify/index.cjs"
+      }
     }
   },
   "files": [
@@ -33,16 +43,18 @@
     "node": ">=22"
   },
   "scripts": {
-    "build": "tsup src/index.ts --format esm,cjs --dts --clean --sourcemap"
+    "build": "tsup"
   },
   "dependencies": {
     "@lpkit-sol/core": "0.0.0"
   },
   "peerDependencies": {
+    "@coral-xyz/anchor": "^0.31.0",
     "@meteora-ag/cp-amm-sdk": "^1.5.1",
     "@solana/web3.js": "^1.95.3"
   },
   "devDependencies": {
+    "@coral-xyz/anchor": "^0.31.1",
     "@meteora-ag/cp-amm-sdk": "^1.5.1",
     "@solana/web3.js": "^1.99.0"
   }
