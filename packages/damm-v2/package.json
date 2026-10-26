@@ -56,6 +56,16 @@
         "types": "./dist/presets/index.d.cts",
         "default": "./dist/presets/index.cjs"
       }
+    },
+    "./token-compat": {
+      "import": {
+        "types": "./dist/token-compat/index.d.ts",
+        "default": "./dist/token-compat/index.js"
+      },
+      "require": {
+        "types": "./dist/token-compat/index.d.cts",
+        "default": "./dist/token-compat/index.cjs"
+      }
     }
   },
   "files": [
@@ -77,11 +87,13 @@
   "peerDependencies": {
     "@coral-xyz/anchor": "^0.31.0",
     "@meteora-ag/cp-amm-sdk": "^1.5.1",
+    "@solana/spl-token": "^0.4.8",
     "@solana/web3.js": "^1.95.3"
   },
   "devDependencies": {
     "@coral-xyz/anchor": "^0.31.1",
     "@meteora-ag/cp-amm-sdk": "^1.5.1",
+    "@solana/spl-token": "^0.4.15",
     "@solana/web3.js": "^1.99.0"
   },
   "publishConfig": {

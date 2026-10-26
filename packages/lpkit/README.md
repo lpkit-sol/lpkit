@@ -7,7 +7,7 @@ Umbrella package that re-exports every lpkit package. See the [main README](http
 **Pre-alpha (0.x).** The API may change.
 
 ```bash
-npm install @lpkit-sol/lpkit @meteora-ag/cp-amm-sdk @coral-xyz/anchor@^0.31 @solana/web3.js@^1
+npm install @lpkit-sol/lpkit @meteora-ag/cp-amm-sdk @coral-xyz/anchor@^0.31 @solana/web3.js@^1 @solana/spl-token@^0.4
 ```
 
 ```ts

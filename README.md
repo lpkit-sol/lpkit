@@ -13,14 +13,14 @@ Open-source toolkit for developers building liquidity-provider (LP) tools on Sol
 **Pre-alpha (0.x).** The API is not stable yet. Expect breaking changes between minor versions.
 
 ```bash
-npm install @lpkit-sol/lpkit @meteora-ag/cp-amm-sdk @coral-xyz/anchor@^0.31 @solana/web3.js@^1
+npm install @lpkit-sol/lpkit @meteora-ag/cp-amm-sdk @coral-xyz/anchor@^0.31 @solana/web3.js@^1 @solana/spl-token@^0.4
 ```
 
-| Package                                  | Contents                                      |
-| ---------------------------------------- | --------------------------------------------- |
-| [`@lpkit-sol/lpkit`](packages/lpkit)     | Re-exports every package below                |
-| [`@lpkit-sol/core`](packages/core)       | Protocol-neutral types                        |
-| [`@lpkit-sol/damm-v2`](packages/damm-v2) | Meteora DAMM v2: pool classifier, fee presets |
+| Package                                  | Contents                                                           |
+| ---------------------------------------- | ------------------------------------------------------------------ |
+| [`@lpkit-sol/lpkit`](packages/lpkit)     | Re-exports every package below                                     |
+| [`@lpkit-sol/core`](packages/core)       | Protocol-neutral types                                             |
+| [`@lpkit-sol/damm-v2`](packages/damm-v2) | Meteora DAMM v2: pool classifier, fee presets, token compatibility |
 
 ## Example
 
@@ -71,7 +71,7 @@ Read-only building blocks first:
 
 - **Pool classifier** _(released in 0.1.0, see [`@lpkit-sol/damm-v2`](packages/damm-v2#pool-classifier))_: decode a DAMM v2 pool account into readable fields (fee collection mode, fee scheduler, compounding, lock, pool type).
 - **Fee presets** _(released in 0.1.0, see [`@lpkit-sol/damm-v2`](packages/damm-v2#fee-presets))_: list and decode the public fee configurations (Constant, Decaying linear/exponential, Market Cap).
-- **Token compatibility check** _(planned)_: detect Token-2022 extensions (transfer fee, transfer hook, permissioned) that block or change DAMM v2 pools.
+- **Token compatibility check** _(on main, not released yet, see [`@lpkit-sol/damm-v2`](packages/damm-v2#token-compatibility-check))_: detect Token-2022 extensions (transfer fee, transfer hook, permissioned) that block or change DAMM v2 pools.
 - **Position reader** _(planned)_: read positions, plus builders for claim and batch-close instructions.
 
 Support for other Meteora products will only be added after their official documentation is public.

@@ -7,10 +7,10 @@ Read-only helpers for Meteora DAMM v2 pools. Part of [lpkit](https://github.com/
 **Pre-alpha (0.x).** The API may change.
 
 ```bash
-npm install @lpkit-sol/damm-v2 @meteora-ag/cp-amm-sdk @coral-xyz/anchor@^0.31 @solana/web3.js@^1
+npm install @lpkit-sol/damm-v2 @meteora-ag/cp-amm-sdk @coral-xyz/anchor@^0.31 @solana/web3.js@^1 @solana/spl-token@^0.4
 ```
 
-Peer dependencies: `@meteora-ag/cp-amm-sdk` (^1.5.1), `@coral-xyz/anchor` (^0.31) and `@solana/web3.js` (v1).
+Peer dependencies: `@meteora-ag/cp-amm-sdk` (^1.5.1), `@coral-xyz/anchor` (^0.31), `@solana/web3.js` (v1) and `@solana/spl-token` (^0.4, used by the token compatibility check).
 
 ## Pool classifier
 
@@ -63,6 +63,30 @@ picks[0]?.address; // config address to pass when creating a pool
 `fetchPublicFeePresets` uses a single `getProgramAccounts` call. Some RPC providers restrict that method. For one known config use `fetchFeePreset(connection, address)`, or `classifyConfig` with `decodeConfigAccount` on data you already have.
 
 Dynamic configs (`configType: "dynamic"`) let the pool creator set fees, so their fee fields do not describe the resulting pools.
+
+## Token compatibility check
+
+Before creating a pool, check whether each token is accepted. The rules mirror the DAMM v2 program:
+
+- SPL Token mints are always accepted.
+- Token-2022 mints are accepted when every extension is `TransferFeeConfig`, `MetadataPointer`, `TokenMetadata`, or a `TransferHook` with no hook program and no authority.
+- Any other extension needs a **token badge** for that mint (created by the DAMM v2 operator), unless the config has the "create pool without mint validation" permission.
+- The Token-2022 native mint is never accepted.
+
+```ts
+import { fetchTokenCompatibility } from "@lpkit-sol/damm-v2/token-compat";
+
+const token = await fetchTokenCompatibility(connection, "<mint address>");
+
+token.status; // "supported" | "supported-with-token-badge" | "requires-token-badge" | "unsupported"
+token.reasons; // e.g. ["Extension PermanentDelegate requires a token badge."]
+token.transferFee?.activeBps; // e.g. 100 (1% of every transfer is withheld)
+token.freezeAuthority; // non-null means token accounts, including pool vaults, can be frozen
+```
+
+`fetchTokenCompatibility` makes one `getMultipleAccounts` call (mint and token badge) and one `getEpochInfo` call. With a mint account you already have, call `checkTokenCompatibility(mint, account, { tokenBadgeExists, epoch })`.
+
+A transfer fee does not block the pool, but every deposit, withdrawal and swap of that token moves less than the amount sent.
 
 ## Notes
 

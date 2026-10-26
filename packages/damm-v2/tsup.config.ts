@@ -6,6 +6,7 @@ export default defineConfig({
     index: "src/index.ts",
     "classify/index": "src/classify/index.ts",
     "presets/index": "src/presets/index.ts",
+    "token-compat/index": "src/token-compat/index.ts",
   },
   format: ["esm", "cjs"],
   dts: true,
