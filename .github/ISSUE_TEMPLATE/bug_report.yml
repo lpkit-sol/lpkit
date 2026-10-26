@@ -1,0 +1,33 @@
+name: Bug report
+description: Something returns a wrong value or fails.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Never paste private keys, seed phrases or RPC URLs with tokens.** Security problems go to [private vulnerability reporting](https://github.com/lpkit-sol/lpkit/security/advisories/new), not here.
+  - type: input
+    id: package
+    attributes:
+      label: Package and version
+      placeholder: "@lpkit-sol/damm-v2@0.1.0"
+    validations:
+      required: true
+  - type: input
+    id: address
+    attributes:
+      label: Pool or config address
+      description: A public mainnet address that reproduces the problem, if you have one.
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect?
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: What happened instead?
+      description: Paste the output or error.
+    validations:
+      required: true

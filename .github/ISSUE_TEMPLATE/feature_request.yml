@@ -1,0 +1,22 @@
+name: Feature request
+description: Suggest something lpkit should read or build.
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What are you trying to do?
+      description: Describe the tool you are building and what is missing.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What would help?
+  - type: dropdown
+    id: protocol
+    attributes:
+      label: Protocol
+      options:
+        - Meteora DAMM v2
+        - Other
