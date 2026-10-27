@@ -88,6 +88,14 @@ token.freezeAuthority; // non-null means token accounts, including pool vaults, 
 
 A transfer fee does not block the pool, but every deposit, withdrawal and swap of that token moves less than the amount sent.
 
+To check these rules against mainnet yourself (read-only, about 2 minutes on the public RPC), run from the repository root after `npm run build`:
+
+```bash
+npm run verify:token-compat -w @lpkit-sol/damm-v2
+```
+
+It samples 400 Token-2022 mints already used in DAMM v2 pools and 400 mints that hold a token badge, and reports how many match the expected status.
+
 ## Notes
 
 - Fees are reported as raw numerators (denominator 1e9) and as basis points.

@@ -5,4 +5,9 @@ export default tseslint.config(
   { ignores: ["**/dist/**", "**/coverage/**", "**/node_modules/**"] },
   js.configs.recommended,
   ...tseslint.configs.recommended,
+  {
+    // Node.js scripts run outside the TypeScript build.
+    files: ["**/scripts/**/*.mjs"],
+    languageOptions: { globals: { console: "readonly", process: "readonly" } },
+  },
 );

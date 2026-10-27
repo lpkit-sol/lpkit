@@ -79,7 +79,8 @@
   },
   "scripts": {
     "build": "tsup",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "verify:token-compat": "node scripts/verify-token-compat-sample.mjs"
   },
   "dependencies": {
     "@lpkit-sol/core": "^0.1.0"
