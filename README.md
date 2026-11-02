@@ -8,6 +8,8 @@
 
 Open-source toolkit for developers building liquidity-provider (LP) tools on Solana. It starts with **Meteora DAMM v2** and is designed so new pool types can be added as separate adapters.
 
+**Not a developer?** Use the free, read-only dashboard: **[lpkit-sol.github.io/lpkit](https://lpkit-sol.github.io/lpkit/)**. Paste a pool or a token and read it in plain language, or browse every public fee preset.
+
 ## Status
 
 **Pre-alpha (0.x).** The API is not stable yet. Expect breaking changes between minor versions.
@@ -21,6 +23,7 @@ npm install @lpkit-sol/lpkit @meteora-ag/cp-amm-sdk @coral-xyz/anchor@^0.31 @sol
 | [`@lpkit-sol/lpkit`](packages/lpkit)     | Re-exports every package below                                     |
 | [`@lpkit-sol/core`](packages/core)       | Protocol-neutral types                                             |
 | [`@lpkit-sol/damm-v2`](packages/damm-v2) | Meteora DAMM v2: pool classifier, fee presets, token compatibility |
+| [`apps/dashboard`](apps/dashboard)       | Public read-only web dashboard (not published to npm)              |
 
 ## Example
 
