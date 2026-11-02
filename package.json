@@ -6,7 +6,8 @@
   "workspaces": [
     "packages/core",
     "packages/damm-v2",
-    "packages/lpkit"
+    "packages/lpkit",
+    "apps/dashboard"
   ],
   "engines": {
     "node": ">=22"

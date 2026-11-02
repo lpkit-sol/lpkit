@@ -1,0 +1,26 @@
+{
+  "name": "@lpkit-sol/dashboard",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Public read-only dashboard for Meteora DAMM v2, built on lpkit. Not affiliated with Meteora.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "build:presets": "node scripts/build-presets.mjs"
+  },
+  "dependencies": {
+    "@coral-xyz/anchor": "^0.31.1",
+    "@lpkit-sol/damm-v2": "^0.2.0",
+    "@meteora-ag/cp-amm-sdk": "^1.5.1",
+    "@solana/spl-token": "^0.4.15",
+    "@solana/web3.js": "^1.99.0",
+    "buffer": "^6.0.3"
+  },
+  "devDependencies": {
+    "vite": "^8.3.5",
+    "vite-plugin-node-polyfills": "^0.28.0"
+  }
+}

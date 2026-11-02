@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Read-only dashboard for Meteora DAMM v2 pools: fee schedules, public fee presets and Token-2022 checks. Built on the open-source lpkit."
+    />
+    <title>lpkit dashboard — Meteora DAMM v2</title>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <header class="top">
+      <div class="wrap top-row">
+        <div>
+          <p class="brand">lpkit <span>dashboard</span></p>
+          <p class="tagline">Read Meteora DAMM v2 pools in plain language.</p>
+        </div>
+        <a class="gh" href="https://github.com/lpkit-sol/lpkit" target="_blank" rel="noopener"
+          >GitHub</a
+        >
+      </div>
+    </header>
+
+    <main class="wrap">
+      <nav class="tabs" role="tablist">
+        <button role="tab" data-tab="pool" aria-selected="true">Pool</button>
+        <button role="tab" data-tab="token" aria-selected="false">Token check</button>
+        <button role="tab" data-tab="presets" aria-selected="false">Fee presets</button>
+      </nav>
+
+      <section id="tab-pool" class="panel">
+        <form id="pool-form" class="lookup">
+          <input
+            id="pool-input"
+            placeholder="DAMM v2 pool address"
+            spellcheck="false"
+            autocomplete="off"
+          />
+          <button type="submit">Read pool</button>
+        </form>
+        <div id="pool-out" class="out"></div>
+      </section>
+
+      <section id="tab-token" class="panel" hidden>
+        <form id="token-form" class="lookup">
+          <input
+            id="token-input"
+            placeholder="Token mint address"
+            spellcheck="false"
+            autocomplete="off"
+          />
+          <button type="submit">Check token</button>
+        </form>
+        <div id="token-out" class="out"></div>
+      </section>
+
+      <section id="tab-presets" class="panel" hidden>
+        <div class="filters">
+          <label
+            >Fee schedule
+            <select id="f-schedule">
+              <option value="">All</option>
+            </select>
+          </label>
+          <label
+            >Fees collected
+            <select id="f-collect">
+              <option value="">All</option>
+            </select>
+          </label>
+          <label
+            >Starting fee
+            <select id="f-start">
+              <option value="">All</option>
+            </select>
+          </label>
+        </div>
+        <p id="presets-meta" class="meta"></p>
+        <div id="presets-out" class="out"></div>
+      </section>
+
+      <details class="rpc">
+        <summary>RPC settings</summary>
+        <p>
+          Requests go straight from your browser to this RPC (by default the free PublicNode
+          endpoint). Public endpoints are rate limited; paste your own for heavier use. It is kept
+          only in this browser.
+        </p>
+        <form id="rpc-form" class="lookup">
+          <input id="rpc-input" spellcheck="false" autocomplete="off" />
+          <button type="submit">Save</button>
+        </form>
+      </details>
+    </main>
+
+    <footer class="wrap foot">
+      <p>
+        Independent, open-source project (Apache-2.0), not affiliated with Meteora. Read-only: it
+        never asks for a wallet or keys. Not financial advice.
+      </p>
+    </footer>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
