@@ -8,7 +8,7 @@
 
 Open-source toolkit for developers building liquidity-provider (LP) tools on Solana. It starts with **Meteora DAMM v2** and is designed so new pool types can be added as separate adapters.
 
-**Not a developer?** Use the free, read-only dashboard: **[lpkit-sol.github.io/lpkit](https://lpkit-sol.github.io/lpkit/)**. Paste a pool or a token and read it in plain language, or browse every public fee preset.
+**Not a developer?** Use the free, read-only dashboard: **[lpkit-sol.github.io/lpkit](https://lpkit-sol.github.io/lpkit/)**. Paste a pool, a token or a position and read it in plain language, or browse every public fee preset.
 
 ## Status
 
@@ -18,12 +18,12 @@ Open-source toolkit for developers building liquidity-provider (LP) tools on Sol
 npm install @lpkit-sol/lpkit @meteora-ag/cp-amm-sdk @coral-xyz/anchor@^0.31 @solana/web3.js@^1 @solana/spl-token@^0.4
 ```
 
-| Package                                  | Contents                                                           |
-| ---------------------------------------- | ------------------------------------------------------------------ |
-| [`@lpkit-sol/lpkit`](packages/lpkit)     | Re-exports every package below                                     |
-| [`@lpkit-sol/core`](packages/core)       | Protocol-neutral types                                             |
-| [`@lpkit-sol/damm-v2`](packages/damm-v2) | Meteora DAMM v2: pool classifier, fee presets, token compatibility |
-| [`apps/dashboard`](apps/dashboard)       | Public read-only web dashboard (not published to npm)              |
+| Package                                  | Contents                                                            |
+| ---------------------------------------- | ------------------------------------------------------------------- |
+| [`@lpkit-sol/lpkit`](packages/lpkit)     | Re-exports every package below                                      |
+| [`@lpkit-sol/core`](packages/core)       | Protocol-neutral types                                              |
+| [`@lpkit-sol/damm-v2`](packages/damm-v2) | Meteora DAMM v2: pools, fee presets, token compatibility, positions |
+| [`apps/dashboard`](apps/dashboard)       | Public read-only web dashboard (not published to npm)               |
 
 ## Example
 
@@ -75,7 +75,8 @@ Read-only building blocks first:
 - **Pool classifier** _(released in 0.1.0, see [`@lpkit-sol/damm-v2`](packages/damm-v2#pool-classifier))_: decode a DAMM v2 pool account into readable fields (fee collection mode, fee scheduler, compounding, lock, pool type).
 - **Fee presets** _(released in 0.1.0, see [`@lpkit-sol/damm-v2`](packages/damm-v2#fee-presets))_: list and decode the public fee configurations (Constant, Decaying linear/exponential, Market Cap).
 - **Token compatibility check** _(released in 0.2.0, see [`@lpkit-sol/damm-v2`](packages/damm-v2#token-compatibility-check))_: detect Token-2022 extensions (transfer fee, transfer hook, permissioned) that block or change DAMM v2 pools.
-- **Position reader** _(planned)_: read positions, plus builders for claim and batch-close instructions.
+- **Position reader** _(released in 0.3.0, see [`@lpkit-sol/damm-v2`](packages/damm-v2#position-reader))_: read a wallet's positions with value, unclaimed fees and rewards, lock split and vesting progress.
+- **Claim and batch-close builders** _(planned)_: build the instructions; the user signs.
 
 Support for other Meteora products will only be added after their official documentation is public.
 

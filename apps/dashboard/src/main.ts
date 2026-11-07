@@ -1,8 +1,11 @@
-import { Connection } from "@solana/web3.js";
+import { Connection, PublicKey } from "@solana/web3.js";
 import {
   fetchPoolClassification,
+  fetchPosition,
+  fetchPositionsByOwner,
   fetchTokenCompatibility,
   type DammV2PoolClassification,
+  type DammV2PositionClassification,
   type DammV2TokenCompatibility,
   type FeeSchedule,
   type CollectFeeModeKind,
@@ -15,6 +18,9 @@ import {
   escapeHtml,
   explorerLink,
   percent,
+  share,
+  shortAddress,
+  tokenAmount,
 } from "./format.js";
 
 // api.mainnet-beta.solana.com answers 403 to browser origins; PublicNode allows CORS without a key.
@@ -123,6 +129,146 @@ poolForm.addEventListener("submit", (event) => {
     out.innerHTML = `<p class="meta">Reading pool…</p>`;
     try {
       out.innerHTML = renderPool(await fetchPoolClassification(connection(), address));
+    } catch (error) {
+      showError(out, error);
+    }
+  });
+});
+
+// --- Positions -----------------------------------------------------------
+
+const DAMM_V2_PROGRAM = "cpamdpZCGKUy5JxQXB4dcpGPiikHawvSWAd6mEn1sGG";
+
+// Free public RPCs refuse "indexed" calls (getProgramAccounts, getTokenAccountsByOwner).
+const isIndexedRefusal = (error: unknown) =>
+  /403|forbidden|personal token|not allowed|disabled/i.test(
+    error instanceof Error ? error.message : String(error),
+  );
+
+function pair(p: DammV2PositionClassification, amounts: { tokenA: string; tokenB: string }) {
+  return [
+    `${escapeHtml(tokenAmount(amounts.tokenA, p.tokenA.decimals))} ${explorerLink(p.tokenA.mint)}`,
+    `${escapeHtml(tokenAmount(amounts.tokenB, p.tokenB.decimals))} ${explorerLink(p.tokenB.mint)}`,
+  ].join("<br>");
+}
+
+function describeLiquidity(p: DammV2PositionClassification): string {
+  const { total, unlocked, vested, permanentlyLocked } = p.liquidity;
+  const parts = [
+    [unlocked, "unlocked"],
+    [vested, "vesting"],
+    [permanentlyLocked, "permanently locked"],
+  ] as const;
+  return (
+    parts
+      .filter(([part]) => BigInt(part) > 0n)
+      .map(([part, label]) => `${share(part, total)} ${label}`)
+      .join(", ") || "Empty"
+  );
+}
+
+function describeVesting(p: DammV2PositionClassification, accountsSkipped: boolean): string {
+  if (p.vesting.length === 0) {
+    return BigInt(p.liquidity.vested) > 0n && accountsSkipped
+      ? "Schedule not loaded (this RPC does not allow the lookup)"
+      : "None";
+  }
+  const available = p.vesting.reduce((sum, v) => sum + BigInt(v.availableToRelease ?? "0"), 0n);
+  const done = p.vesting.filter((v) => v.complete).length;
+  const count = `${p.vesting.length} schedule${p.vesting.length > 1 ? "s" : ""}, ${done} complete`;
+  return `${count} · ${share(available.toString(), p.liquidity.total)} of the position can be released now`;
+}
+
+function renderPosition(p: DammV2PositionClassification, accountsSkipped: boolean): string {
+  const poolLink = `<a class="mono" href="?pool=${escapeHtml(p.pool)}">${escapeHtml(shortAddress(p.pool))}</a>`;
+  // Reward decimals are only known when the reward is one of the pool tokens.
+  const rewardDecimals = (mint: string) =>
+    mint === p.tokenA.mint ? p.tokenA.decimals : mint === p.tokenB.mint ? p.tokenB.decimals : null;
+  const rewards = p.rewards.length
+    ? p.rewards
+        .map((r) =>
+          r.pending === null
+            ? `— ${explorerLink(r.mint)}`
+            : `${escapeHtml(tokenAmount(r.pending, rewardDecimals(r.mint)))} ${explorerLink(r.mint)}`,
+        )
+        .join("<br>")
+    : "None";
+  const poolShare =
+    p.liquidity.poolSharePercent === null ? "—" : `${p.liquidity.poolSharePercent}%`;
+  const delegates = p.delegatePermissions.length
+    ? escapeHtml(p.delegatePermissions.join(", "))
+    : "None";
+  return `
+    <div class="card">
+      <h2>Position ${explorerLink(p.address)} <span class="meta">in pool ${poolLink}</span></h2>
+      <div class="grid">
+        ${kv("Current value", pair(p, p.amounts))}
+        ${kv("Unclaimed fees", pair(p, p.unclaimedFees))}
+        ${kv("Fees claimed so far", pair(p, p.claimedFees))}
+        ${kv("Share of pool", poolShare)}
+        ${kv("Liquidity", escapeHtml(describeLiquidity(p)))}
+        ${kv("Vesting", escapeHtml(describeVesting(p, accountsSkipped)))}
+        ${kv("Pending rewards", rewards)}
+        ${kv("Delegates", delegates)}
+      </div>
+    </div>`;
+}
+
+async function readPositions(address: string): Promise<string> {
+  const conn = connection();
+  const key = new PublicKey(address);
+  const info = await conn.getAccountInfo(key);
+  const isPosition = info?.owner.toBase58() === DAMM_V2_PROGRAM;
+
+  // Vesting accounts need getProgramAccounts; fall back without them if the RPC refuses.
+  const load = async (vestingAccounts: boolean) =>
+    isPosition
+      ? [await fetchPosition(conn, key, undefined, { vestingAccounts })]
+      : await fetchPositionsByOwner(conn, key, undefined, { vestingAccounts });
+
+  let positions: DammV2PositionClassification[];
+  let skipped = false;
+  try {
+    positions = await load(true);
+  } catch (error) {
+    if (!isIndexedRefusal(error)) throw error;
+    try {
+      positions = await load(false);
+      skipped = true;
+    } catch (retryError) {
+      if (isIndexedRefusal(retryError) && !isPosition) {
+        throw new Error(
+          "This RPC does not allow wallet lookups (getTokenAccountsByOwner). Paste a position address instead, or set an RPC with your own key in RPC settings below.",
+          { cause: retryError },
+        );
+      }
+      throw retryError;
+    }
+  }
+
+  if (positions.length === 0) {
+    return `<p class="meta">No DAMM v2 positions held by this wallet.</p>`;
+  }
+  const header = isPosition
+    ? ""
+    : `<p class="meta">${positions.length} position${positions.length > 1 ? "s" : ""}, largest first.</p>`;
+  return (
+    header +
+    positions.map((p) => renderPosition(p, skipped)).join("") +
+    `<p class="meta">Value is what the liquidity is worth at the current pool price. Amounts are rounded down.</p>`
+  );
+}
+
+const positionsForm = $<HTMLFormElement>("positions-form");
+positionsForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const out = $("positions-out");
+  const address = $<HTMLInputElement>("positions-input").value.trim();
+  if (!address) return;
+  void withBusy(positionsForm, async () => {
+    out.innerHTML = `<p class="meta">Reading positions…</p>`;
+    try {
+      out.innerHTML = await readPositions(address);
     } catch (error) {
       showError(out, error);
     }
@@ -267,11 +413,16 @@ function renderPresets() {
     </table></div>`;
 }
 
-// Deep link: ?pool=<address> or ?token=<mint>
+// Deep link: ?pool=<address>, ?token=<mint> or ?positions=<wallet or position>
 const params = new URLSearchParams(location.search);
 const poolParam = params.get("pool");
 const tokenParam = params.get("token");
-if (tokenParam) {
+const positionsParam = params.get("positions");
+if (positionsParam) {
+  showTab("positions");
+  $<HTMLInputElement>("positions-input").value = positionsParam;
+  positionsForm.requestSubmit();
+} else if (tokenParam) {
   showTab("token");
   $<HTMLInputElement>("token-input").value = tokenParam;
   tokenForm.requestSubmit();

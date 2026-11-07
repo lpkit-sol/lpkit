@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Read-only dashboard for Meteora DAMM v2 pools: fee schedules, public fee presets and Token-2022 checks. Built on the open-source lpkit."
+      content="Read-only dashboard for Meteora DAMM v2: pools, LP positions, public fee presets and Token-2022 checks. Built on the open-source lpkit."
     />
     <title>lpkit dashboard — Meteora DAMM v2</title>
     <link rel="stylesheet" href="/src/style.css" />
@@ -26,6 +26,7 @@
     <main class="wrap">
       <nav class="tabs" role="tablist">
         <button role="tab" data-tab="pool" aria-selected="true">Pool</button>
+        <button role="tab" data-tab="positions" aria-selected="false">Positions</button>
         <button role="tab" data-tab="token" aria-selected="false">Token check</button>
         <button role="tab" data-tab="presets" aria-selected="false">Fee presets</button>
       </nav>
@@ -41,6 +42,19 @@
           <button type="submit">Read pool</button>
         </form>
         <div id="pool-out" class="out"></div>
+      </section>
+
+      <section id="tab-positions" class="panel" hidden>
+        <form id="positions-form" class="lookup">
+          <input
+            id="positions-input"
+            placeholder="Wallet or position address"
+            spellcheck="false"
+            autocomplete="off"
+          />
+          <button type="submit">Read positions</button>
+        </form>
+        <div id="positions-out" class="out"></div>
       </section>
 
       <section id="tab-token" class="panel" hidden>

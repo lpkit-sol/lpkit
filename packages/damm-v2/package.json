@@ -1,6 +1,6 @@
 {
   "name": "@lpkit-sol/damm-v2",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Read-only helpers for Meteora DAMM v2 pools. Unofficial.",
   "keywords": [
     "solana",
@@ -65,6 +65,16 @@
       "require": {
         "types": "./dist/token-compat/index.d.cts",
         "default": "./dist/token-compat/index.cjs"
+      }
+    },
+    "./positions": {
+      "import": {
+        "types": "./dist/positions/index.d.ts",
+        "default": "./dist/positions/index.js"
+      },
+      "require": {
+        "types": "./dist/positions/index.d.cts",
+        "default": "./dist/positions/index.cjs"
       }
     }
   },

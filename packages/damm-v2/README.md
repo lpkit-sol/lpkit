@@ -96,10 +96,36 @@ npm run verify:token-compat -w @lpkit-sol/damm-v2
 
 It samples 400 Token-2022 mints already used in DAMM v2 pools and 400 mints that hold a token badge, and reports how many match the expected status.
 
+## Position reader
+
+Read an LP position the way the DAMM v2 program sees it: what it is worth now, unclaimed fees and rewards, how its liquidity is split between unlocked, vesting and permanently locked, and how much vesting liquidity can be released.
+
+```ts
+import { fetchPosition, fetchPositionsByOwner } from "@lpkit-sol/damm-v2/positions";
+
+const positions = await fetchPositionsByOwner(connection, "<wallet address>");
+
+const p = positions[0];
+p.amounts; // { tokenA, tokenB } in base units at the current pool price, rounded down
+p.unclaimedFees; // { tokenA, tokenB }
+p.claimedFees; // lifetime fees already claimed
+p.liquidity; // { total, unlocked, vested, permanentlyLocked, poolSharePercent }
+p.rewards; // [{ index, mint, pending }] for each initialized pool reward
+p.vesting; // schedules with availableToRelease and complete
+p.tokenA.decimals; // read from the mint
+```
+
+A position belongs to whoever holds its NFT. `fetchPositionsByOwner` finds them with one `getTokenAccountsByOwner` call (Token-2022 accounts holding exactly 1 token) and returns them largest first. For one position, use `fetchPosition(connection, address)`.
+
+Vested liquidity usually lives in separate Vesting accounts, which are found with `getProgramAccounts`, only for positions that have vested liquidity. Some RPC providers refuse that call; pass `{ vestingAccounts: false }` as the fourth argument to skip it. Free public RPCs also often refuse `getTokenAccountsByOwner`.
+
+With accounts you already have, call `classifyPosition(address, position, pool, { currentTime, currentPoint, vestings, owner, decimals })` after decoding them with `decodePositionAccount`, `decodeVestingAccount` and `decodePoolAccount`. Fee, amount and vesting math comes from `@meteora-ag/cp-amm-sdk`. Pending rewards need `currentTime` (unix seconds) and vesting progress needs `currentPoint` (slot or unix seconds, as the pool's activation type says); without them those fields are `null`.
+
 ## Notes
 
 - Fees are reported as raw numerators (denominator 1e9) and as basis points.
 - u64 and u128 values are returned as decimal strings to avoid precision loss.
 - Values the classifier does not recognise are reported as `"unknown"` instead of guessed.
 - The type declarations shipped with `@meteora-ag/cp-amm-sdk` 1.5.1 fail TypeScript's library check on their own. Keep `skipLibCheck: true` (the usual default) in your `tsconfig.json`.
-- `permanentlyLockedPercent` covers permanent locks only. Vesting locks live on positions, not on the pool.
+- `permanentlyLockedPercent` covers permanent locks only. Vesting locks live on positions, not on the pool; see the position reader.
+- Reward amounts are raw base units. Their decimals are only known when the reward token is one of the pool tokens.

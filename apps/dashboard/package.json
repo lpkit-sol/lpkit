@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@coral-xyz/anchor": "^0.31.1",
-    "@lpkit-sol/damm-v2": "^0.2.0",
+    "@lpkit-sol/damm-v2": "^0.3.0",
     "@meteora-ag/cp-amm-sdk": "^1.5.1",
     "@solana/spl-token": "^0.4.15",
     "@solana/web3.js": "^1.99.0",

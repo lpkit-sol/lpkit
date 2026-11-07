@@ -28,6 +28,27 @@ export function explorerLink(address: string, label = shortAddress(address)): st
   return `<a class="mono" href="https://solscan.io/account/${safe}" target="_blank" rel="noopener" title="${safe}">${escapeHtml(label)}</a>`;
 }
 
+/** A raw base-unit amount as a decimal string, trimmed to a readable precision. */
+export function tokenAmount(raw: string, decimals: number | null): string {
+  if (decimals === null) return `${BigInt(raw).toLocaleString("en-US")} (raw units)`;
+  const value = BigInt(raw);
+  const scale = 10n ** BigInt(decimals);
+  const whole = value / scale;
+  const fraction = (value % scale).toString().padStart(decimals, "0");
+  // Show more decimals for small amounts so they do not round to zero.
+  const keep = whole >= 1000n ? 2 : whole >= 1n ? 4 : Math.min(decimals, 9);
+  const shown = fraction.slice(0, keep).replace(/0+$/, "");
+  return `${whole.toLocaleString("en-US")}${shown ? `.${shown}` : ""}`;
+}
+
+/** part / total as a percentage string with two decimals, from base-unit strings. */
+export function share(part: string, total: string): string {
+  const t = BigInt(total);
+  if (t === 0n) return "—";
+  const bps = (BigInt(part) * 10_000n) / t;
+  return `${(Number(bps) / 100).toLocaleString("en-US", { maximumFractionDigits: 2 })}%`;
+}
+
 /** Seconds as a short human duration, e.g. "2 h" or "45 min". */
 function duration(seconds: number): string {
   if (seconds >= 86_400) return `${+(seconds / 86_400).toFixed(1)} days`;
