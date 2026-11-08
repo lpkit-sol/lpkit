@@ -2,7 +2,7 @@
 
 All notable changes to the published packages. Versions follow [semver](https://semver.org/); while lpkit is 0.x, a minor version may contain breaking changes.
 
-## 0.3.0 (unreleased)
+## 0.3.0 (2026-11-08)
 
 `@lpkit-sol/damm-v2` and `@lpkit-sol/lpkit`. `@lpkit-sol/core` is unchanged at 0.1.0.
 
