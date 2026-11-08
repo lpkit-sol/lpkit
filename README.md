@@ -88,7 +88,7 @@ Support for other Meteora products will only be added after their official docum
 
 ## Contributing
 
-Using an AI coding assistant? Point it to [`AGENTS.md`](AGENTS.md).
+Using an AI coding assistant? Point it to [`AGENTS.md`](AGENTS.md), or install the agent skill in [`skills/lpkit`](skills/lpkit/SKILL.md).
 
 Issues, feedback and pull requests are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md). Never include private keys, seed phrases, API keys or RPC URLs with tokens in issues, pull requests or commits. To report a security problem, see [SECURITY.md](SECURITY.md).
 

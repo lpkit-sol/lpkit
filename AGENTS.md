@@ -25,6 +25,8 @@ Everything is exported from `@lpkit-sol/lpkit` and from `@lpkit-sol/damm-v2`, an
 | `@lpkit-sol/damm-v2/token-compat` | `fetchTokenCompatibility`                 | `checkTokenCompatibility`                                           |
 | `@lpkit-sol/damm-v2/positions`    | `fetchPositionsByOwner`, `fetchPosition`  | `classifyPosition`, `decodePositionAccount`, `decodeVestingAccount` |
 
+An installable agent skill with worked examples lives in [`skills/lpkit/SKILL.md`](skills/lpkit/SKILL.md).
+
 Do not invent other functions. If something is missing, say so instead of guessing an API. Details and examples are in [`packages/damm-v2/README.md`](packages/damm-v2/README.md).
 
 ### Rules that avoid common mistakes
