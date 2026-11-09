@@ -27,6 +27,8 @@ Everything is exported from `@lpkit-sol/lpkit` and from `@lpkit-sol/damm-v2`, an
 
 An installable agent skill with worked examples lives in [`skills/lpkit/SKILL.md`](skills/lpkit/SKILL.md).
 
+For transactions (creating pools, swaps, claims) and for Meteora's own documentation, use Meteora's resources: the docs at https://docs.meteora.ag, the documentation MCP at https://docs.meteora.ag/mcp, and Meteora's agent skill. lpkit complements them.
+
 Do not invent other functions. If something is missing, say so instead of guessing an API. Details and examples are in [`packages/damm-v2/README.md`](packages/damm-v2/README.md).
 
 ### Rules that avoid common mistakes

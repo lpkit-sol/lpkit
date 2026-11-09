@@ -135,6 +135,14 @@ If the RPC refuses (seen on mainnet: HTTP 403 with "Access forbidden" or "Indexe
 
 lpkit does not create pools, swap, add or remove liquidity, or claim. For those, use Meteora's SDK (`@meteora-ag/cp-amm-sdk`) or Meteora's official agent skill, and have the user review and sign every transaction in their own wallet. lpkit's output (a config address, a token check, unclaimed fees) is a good input to that step.
 
+## Official Meteora resources
+
+lpkit complements these; it does not replace them.
+
+- Meteora docs: https://docs.meteora.ag
+- Meteora documentation MCP (search and read the docs from an AI tool; it does not read chain data or send transactions): https://docs.meteora.ag/mcp, setup at https://docs.meteora.ag/agents/mcp
+- Meteora's agent skill (launches, pools, swaps, claims): https://github.com/MeteoraAg/meteora-invent/tree/main/skills/meteora
+
 ## More
 
 - Package docs: https://github.com/lpkit-sol/lpkit/tree/main/packages/damm-v2

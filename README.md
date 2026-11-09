@@ -80,6 +80,8 @@ Read-only building blocks first:
 
 Support for other Meteora products will only be added after their official documentation is public.
 
+lpkit reads and explains; it complements Meteora's own tools rather than replacing them. For transactions and official references, see the [Meteora docs](https://docs.meteora.ag), the [documentation MCP](https://docs.meteora.ag/agents/mcp) and Meteora's [agent skill](https://github.com/MeteoraAg/meteora-invent/tree/main/skills/meteora).
+
 ## Design principles
 
 - **Neutral core, protocol adapters.** Shared types for pools and positions live in a core; each protocol gets its own adapter.
